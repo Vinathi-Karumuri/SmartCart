@@ -36,7 +36,7 @@
     <div style="display:flex; flex-wrap:wrap; gap:20px; margin-top:20px;">
 
         {% for product in products %}
-        <div class="card" style="width:220px; padding:20px; text-align:center;">
+        <div class="card" style="width:300px; height: 270px; padding:20px; text-align:center;">
 
             <img src="{{ url_for('static',
                 filename='uploads/product_images/' ~ product.image) }}"
@@ -49,6 +49,12 @@
             <a href="/user/product/{{ product.product_id }}"
                class="add-product-btn">
                 View Details
+            </a>
+
+            <a href="/user/add-to-cart/{{ product.product_id }}"
+               class="add-product-btn"
+               style="margin-top:10px;">
+                Add to cart
             </a>
 
         </div>
