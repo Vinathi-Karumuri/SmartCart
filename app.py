@@ -88,7 +88,7 @@ def admin_signup():
     email = request.form['email']
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
     cursor.execute("SELECT admin_id FROM admin WHERE email=?", (email,))
     existing_admin = cursor.fetchone()
     cursor.close()
@@ -157,7 +157,7 @@ def admin_login():
     password = request.form['password']
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
     cursor.execute("SELECT * FROM admin WHERE email=?", (email,))
     admin = cursor.fetchone()
     cursor.close()
@@ -185,7 +185,7 @@ def admin_forgot_password():
         email = request.form['email']
 
         conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
+        cursor = conn.cursor()
 
         cursor.execute("SELECT * FROM admin WHERE email=?", (email,))
         admin = cursor.fetchone()
@@ -223,7 +223,7 @@ def admin_forgot_password():
 def admin_reset_password(token):
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     # 1️⃣ Find admin by token
     cursor.execute(
@@ -281,7 +281,7 @@ def admin_dashboard():
     admin_id = session['admin_id']  
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     cursor.execute(
         "SELECT DISTINCT category FROM products WHERE admin_id = ?",
@@ -376,7 +376,7 @@ def item_list():
     category_filter = request.args.get('category', '')
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     cursor.execute(
         "SELECT DISTINCT category FROM products WHERE admin_id = ?",
@@ -415,7 +415,7 @@ def view_item(item_id):
     admin_id = session['admin_id']  
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     cursor.execute(
         "SELECT * FROM products WHERE product_id = ? AND admin_id = ?",
@@ -443,7 +443,7 @@ def update_item_page(item_id):
     admin_id = session['admin_id']
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     cursor.execute(
         "SELECT * FROM products WHERE product_id=? AND admin_id=?",
@@ -481,7 +481,7 @@ def update_item(item_id):
     new_image = request.files.get('image')
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     try:
         # Fetch product
@@ -540,7 +540,7 @@ def delete_item(item_id):
     admin_id = session['admin_id']
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     try:
         # Fetch product
@@ -595,7 +595,7 @@ def admin_profile():
     admin_id = session['admin_id']
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM admin WHERE admin_id = ?", (admin_id,))
     admin = cursor.fetchone()
@@ -622,7 +622,7 @@ def admin_profile_update():
     new_image = request.files['profile_image']
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     # 2️⃣ Fetch old admin data
     cursor.execute("SELECT * FROM admin WHERE admin_id = ?", (admin_id,))
@@ -683,7 +683,7 @@ def user_register():
 
     # Check if user already exists
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM users WHERE email=?", (email,))
     existing_user = cursor.fetchone()
@@ -719,7 +719,7 @@ def user_login():
     password = request.form['password']
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM users WHERE email=?", (email,))
     user = cursor.fetchone()
@@ -751,7 +751,7 @@ def user_forgot_password():
         email = request.form['email']
 
         conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
+        cursor = conn.cursor()
 
         cursor.execute("SELECT * FROM users WHERE email=?", (email,))
         user = cursor.fetchone()
@@ -795,7 +795,7 @@ def user_forgot_password():
 def user_reset_password(token):
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     cursor.execute(
         "SELECT * FROM users WHERE reset_token=?",
@@ -844,7 +844,7 @@ def user_dashboard():
     category_filter = request.args.get('category', '')
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     # Categories
     cursor.execute("SELECT DISTINCT category FROM products")
@@ -899,7 +899,7 @@ def user_products():
     category_filter = request.args.get('category', '')
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     cursor.execute("SELECT DISTINCT category FROM products")
     categories = cursor.fetchall()
@@ -932,7 +932,7 @@ def user_product_details(product_id):
         return redirect('/user-login')
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM products WHERE product_id = ?", (product_id,))
     product = cursor.fetchone()
@@ -957,7 +957,7 @@ def add_to_cart(product_id):
     user_id = session['user_id']
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     # Check product exists
     cursor.execute("SELECT * FROM products WHERE product_id=?", (product_id,))
@@ -1004,7 +1004,7 @@ def view_cart():
     user_id = session['user_id']
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     cursor.execute("""
         SELECT 
@@ -1114,7 +1114,7 @@ def user_profile():
     user_id = session['user_id']
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM users WHERE user_id = ?", (user_id,))
     user = cursor.fetchone()
@@ -1141,7 +1141,7 @@ def user_profile_update():
     new_image = request.files['profile_image']
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     # 2️⃣ Fetch old user data
     cursor.execute("SELECT * FROM users WHERE user_id = ?", (user_id,))
@@ -1244,7 +1244,7 @@ def user_pay():
     user_id = session['user_id']
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     cursor.execute("""
         SELECT p.product_id, p.name, p.price, c.quantity
@@ -1295,7 +1295,7 @@ def select_address():
     user_id = session['user_id']
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     cursor.execute(
         "SELECT * FROM user_addresses WHERE user_id=?",
@@ -1365,7 +1365,7 @@ def verify_payment():
         return redirect('/user/cart')
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     # FETCH CART FROM DB
     cursor.execute("""
@@ -1462,7 +1462,7 @@ def order_success(order_db_id):
     user_id = session['user_id']
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     # Fetch order + delivery address
     cursor.execute("""
@@ -1509,7 +1509,7 @@ def my_orders():
         return redirect('/user-login')
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM orders WHERE user_id=? ORDER BY created_at DESC", (session['user_id'],))
     orders = cursor.fetchall()
@@ -1528,7 +1528,7 @@ def download_invoice(order_id):
         return redirect('/user-login')
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
 
     # Fetch order + address
     cursor.execute("""
