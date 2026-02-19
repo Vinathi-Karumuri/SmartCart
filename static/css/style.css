@@ -80,8 +80,6 @@ footer {
     display: flex; 
     justify-content: center; 
     align-items: flex-start; 
-    
-    
 }
 
 /* ---------- MAIN CONTENT ---------- */
@@ -294,7 +292,7 @@ footer {
     display: inline-block;
 }
 
-/* ---------- HAMBURGER NAVBAR ---------- */
+/* ---------- HAMBURGER ---------- */
 .menu-toggle {
     display: none;
     font-size: 26px;
@@ -302,43 +300,39 @@ footer {
     color: #fff;
 }
 
-/* ---------- MOBILE ---------- */
+/* ---------- MOBILE NAVBAR (FINAL FIX) ---------- */
 @media (max-width: 768px) {
-
-    nav {
-        padding: 0 15px;
-    }
 
     .menu-toggle {
         display: block;
     }
 
+    /* DROPDOWN MENU */
     .nav-links {
+        position: absolute;
+        top: 70px;              
+        left: 0;
+        right: 0;
+
         display: none;
-        width: 100%;
         flex-direction: column;
+
         background: #0d6efd;
-        margin-top: 10px;
-        border-radius: 10px;
+        padding: 10px 0;
+
+        z-index: 3000;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
     }
 
     .nav-links a {
+        padding: 14px 20px;
+        margin: 0;
         width: 100%;
-        padding: 10px 15px;
-        margin-left: 0;
+        text-align: left;
     }
 
     .nav-links.show {
         display: flex;
-    }
-
-    .page-bg {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
-    .card {
-        padding: 22px;
     }
 }
 
