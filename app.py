@@ -167,7 +167,7 @@ def admin_login():
         flash("Email not found! Please register first.", "danger")
         return redirect('/admin-login')
 
-    if not bcrypt.checkpw(password.encode('utf-8'), admin['password'].encode('utf-8')):
+    if not bcrypt.checkpw(password.encode('utf-8'), admin['password']):
         flash("Incorrect password!", "danger")
         return redirect('/admin-login')
 
@@ -732,7 +732,7 @@ def user_login():
         return redirect('/user-login')
 
     # Verify password
-    if not bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
+    if not bcrypt.checkpw(password.encode('utf-8'), user['password']):
         flash("Incorrect password!", "danger")
         return redirect('/user-login')
 
