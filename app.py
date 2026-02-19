@@ -256,7 +256,7 @@ def admin_reset_password(token):
             """
             UPDATE admin
             SET password=?, reset_token=NULL, token_expiry=NULL
-            WHERE admin_id=?
+            WHERE admin_id=? AND reset_token=?
             """,
             (hashed_password, admin['admin_id'],token)
         )
