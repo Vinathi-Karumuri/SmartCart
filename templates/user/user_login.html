@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main">
+    <div class="card">
+
+        <h2>User Login</h2>
+
+        <!-- 🔔 Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">
+                {{ message }}
+            </div>
+          {% endfor %}
+        {% endwith %}
+
+        <form method="POST" action="/user-login">
+
+            <input type="email"
+                   name="email"
+                   placeholder="Enter your email"
+                   required>
+
+            <input type="password"
+                   name="password"
+                   placeholder="Enter your password"
+                   required>
+
+            <button type="submit">Login</button>
+            <p style="margin-top:15px;">
+                <a href="/user-forgot-password">Forgot Password?</a>
+            </p>
+        </form>
+
+        <p style="margin-top:15px;">
+            Don’t have an account?
+            <a href="/user-register">Create Account</a>
+        </p>
+
+    </div>
+</div>
+
+{% endblock %}

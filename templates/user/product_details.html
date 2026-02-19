@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main">
+    <div class="card" style="max-width:600px; width:100%; text-align:center;">
+
+        <h2 style="margin-bottom:15px;">{{ product.name }}</h2>
+
+        <img src="{{ url_for('static',
+            filename='uploads/product_images/' ~ product.image) }}"
+            style="width:300px; max-width:100%; object-fit:contain; margin-bottom:15px;">
+
+        <p style="margin-bottom:10px;">
+            <strong>Description:</strong><br>
+            {{ product.description }}
+        </p>
+
+        <p>
+            <strong>Category:</strong> {{ product.category }}
+        </p>
+
+        <p style="font-size:18px; margin-top:10px;">
+            <strong>Price:</strong> ₹{{ product.price }}
+        </p>
+
+        <form action="/user/add-to-cart/{{ product.product_id }}" method="GET">
+        <button type="submit">Add to Cart</button>
+        </form>
+
+        <a href="/user/products"
+           class="add-product-btn"
+           style="margin-top:20px;">
+            ⬅ Back to Products
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}

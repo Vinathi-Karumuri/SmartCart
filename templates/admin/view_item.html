@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card" style="max-width: 600px;">
+
+    <h2>Product Details</h2>
+
+    <div style="margin-bottom: 20px;">
+        <img src="{{ url_for('static', filename='uploads/product_images/' ~ product.image) }}"
+             width="200"
+             style="border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.2);">
+    </div>
+
+    <p><strong>Name:</strong> {{ product.name }}</p>
+    <p><strong>Description:</strong> {{ product.description }}</p>
+    <p><strong>Category:</strong> {{ product.category }}</p>
+    <p><strong>Price:</strong> ₹{{ product.price }}</p>
+
+    <div style="margin-top:25px;">
+        <a href="/admin/item-list" class="btn-back">⬅ Back to Product List</a>
+    </div>
+
+</div>
+
+{% endblock %}

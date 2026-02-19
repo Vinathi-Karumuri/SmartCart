@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="select-address-container">
+
+    <h2 class="select-address-title">
+        📍 Select Delivery Address
+    </h2>
+
+    {% if addresses %}
+
+    <form method="POST" action="/user/confirm-address">
+
+        {% for addr in addresses %}
+        <div class="address-card">
+            <label>
+                <input type="radio" name="address_id" value="{{ addr.address_id }}" required>
+                <span class="address-name">{{ addr.name }}</span>
+            </label>
+            <p>
+                {{ addr.address }}<br>
+                {{ addr.city }}, {{ addr.state }} - {{ addr.pincode }}<br>
+                Mobile: {{ addr.mobile }}
+            </p>
+        </div>
+        {% endfor %}
+
+        <div class="address-actions">
+            <button type="submit" class="address-btn">
+                Deliver to this address
+            </button>
+        </div>
+
+    </form>
+
+    {% else %}
+        <p>No address found.</p>
+    {% endif %}
+
+    <div class="address-actions">
+       <button type="button"
+        class="address-btn"
+        onclick="window.location.href='/user/add-address'">
+        + Add New Address
+      </button>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="order-success-container">
+
+    <h2 class="order-success-title">🎉 Your Order is Confirmed!</h2>
+    <p class="order-success-subtitle">
+        Thank you for shopping with <b>SmartCart</b>.
+    </p>
+
+    <!-- ORDER DETAILS -->
+    <div class="order-section order-details">
+        <h3>📄 Order Details</h3>
+        <p><b>Order ID:</b> {{ order.order_id }}</p>
+        <p><b>Payment ID:</b> {{ order.razorpay_payment_id }}</p>
+        <p><b>Amount Paid:</b> ₹{{ order.amount }}</p>
+        <p><b>Order Date:</b> {{ order.created_at }}</p>
+    </div>
+
+    <!-- DELIVERY ADDRESS -->
+    <div class="order-section order-details">
+        <h3>📦 Delivery Address</h3>
+        <p>
+            <b>{{ order.address_name }}</b><br>
+            {{ order.address }}<br>
+            {{ order.city }}, {{ order.state }} - {{ order.pincode }}<br>
+            Mobile: {{ order.mobile }}
+        </p>
+    </div>
+
+    <!-- ORDER ITEMS -->
+    <div class="order-section">
+        <h3>🛒 Order Summary</h3>
+
+        <table class="order-table">
+            <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Price (₹)</th>
+            </tr>
+
+            {% for it in items %}
+            <tr>
+                <td>{{ it.product_name }}</td>
+                <td>{{ it.quantity }}</td>
+                <td>{{ it.price }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="order-section">
+        <a href="/user/download-invoice/{{ order.order_id }}" class="order-action-btn">
+            Download Invoice (PDF)
+        </a>
+        <a href="/user/products" class="order-action-btn">
+            Continue Shopping
+        </a>
+        <a href="/user/my-orders" class="order-action-btn">
+            View My Orders
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

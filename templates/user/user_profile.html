@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="main">
+    <div class="card">
+        <h2>👤 User Profile</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <p style="color:green; text-align:center;">{{ message }}</p>
+      {% endfor %}
+    {% endwith %}
+
+    <!-- Profile Image -->
+    <div class="profile-image-box">
+        {% if user.profile_image %}
+            <img src="/static/uploads/user_profiles/{{ user.profile_image }}"
+                 class="profile-image">
+        {% else %}
+            <p>No Profile Image</p>
+        {% endif %}
+    </div>
+
+    <!-- Profile Update Form -->
+    <form method="POST" action="/user/profile" enctype="multipart/form-data" class="profile-form">
+
+        <input type="text"
+                   name="name"
+                   value="{{ user.name }}"
+                   placeholder="Name"
+                   required>
+
+            <input type="email"
+                   name="email"
+                   value="{{ user.email }}"
+                   placeholder="Email"
+                   required>
+
+            <input type="password"
+                   name="password"
+                   placeholder="New Password (optional)">
+
+            <input type="file"
+                   name="profile_image"
+                   accept="image/*">
+
+            <button type="submit">Update Profile</button>
+        </form>
+    <br>
+    <a href="/user-dashboard" class="btn-back">
+        ← Back to Dashboard
+    </a>
+  </div>
+</div>
+
+{% endblock %}

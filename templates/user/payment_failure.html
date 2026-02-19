@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="payment-failure-container">
+
+    <h2 class="payment-failure-title">
+        ❌ Payment Failed
+    </h2>
+
+    <p class="payment-failure-reason">
+        {{ reason }}
+    </p>
+
+    <a href="/user/cart" class="payment-failure-btn">
+        Go Back to Cart
+    </a>
+
+    <a href="/user/products" class="payment-failure-btn secondary">
+        Continue Shopping
+    </a>
+
+</div>
+
+{% endblock %}

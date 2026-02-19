@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card">
+
+    <h2>Add Address</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <p class="flash {{ category }}">{{ message }}</p>
+      {% endfor %}
+    {% endwith %}
+
+    <form method="POST" action="/user/add-address">
+
+        <input type="text" name="name" placeholder="Full Name" required>
+
+        <input type="text" name="mobile"
+               placeholder="Mobile Number"
+               pattern="[0-9]{10}"
+               title="Enter 10 digit mobile number"
+               required>
+
+        <textarea name="address" placeholder="Full Address" required></textarea>
+
+        <input type="text" name="city" placeholder="City" required>
+
+        <input type="text" name="state" placeholder="State" required>
+
+        <input type="text" name="pincode"
+               placeholder="Pincode"
+               pattern="[0-9]{6}"
+               title="Enter 6 digit pincode"
+               required>
+
+        <button type="submit" class="primary-btn">Save Address</button>
+    </form>
+
+    <br>
+
+    <a href="/user/select-address" class="add-product-btn">⬅ Back</a>
+
+</div>
+
+{% endblock %}

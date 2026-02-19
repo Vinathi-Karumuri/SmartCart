@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main">
+    <div class="card">
+        <h2>Admin Registration</h2>
+
+        <form method="POST">
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <button type="submit">Send OTP</button>
+        </form>
+
+        <p style="margin-top:15px;">
+            Already have an account?
+            <a href="/admin-login">Login</a>
+        </p>
+        
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,81 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+    <head> 
+        <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>SmartCart</title> 
+        <!-- Main CSS --> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> 
+    </head> 
+    <body> 
+        <!-------------- NAVBAR -------------> 
+    <nav> <b>🛒 SmartCart</b> 
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div> 
+        
+        <div class="nav-links" id="navLinks"> 
+            {% if navbar_type == "public" %} 
+            <a href="/">Home</a> 
+            <a href="/about">About</a> 
+            <a href="/contact">Contact</a> 
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+
+            {% elif navbar_type == "admin" %} 
+            <a href="/admin-dashboard">Dashboard</a> 
+            <a href="/admin/add-item">Add Product</a> 
+            <a href="/admin/item-list">View All Products</a> 
+            <a href="/admin/profile">View and update profile</a> 
+            <a href="/admin-logout">Logout</a> 
+                
+            {% elif navbar_type == "user" %} 
+            <a href="/user-dashboard">Dashboard</a> 
+            <a href="/user/products">Browse Products</a>
+            <a href="/user/cart">Cart ({{ cart_count }})</a>
+            <a href="/user/profile">View and update profile</a> 
+            <a href="/user/my-orders">My Orders</a>
+            <a href="/user-logout">Logout</a> 
+                
+            {% endif %} 
+        </div> 
+    </nav> 
+    <!----------- BACKGROUND + Flash Messages ----------- --> 
+    <div class="page-bg"> 
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="flash {{ category }}">
+                <span class="flash-text">{{ message }}</span>
+                <span class="close-btn"
+                    onclick="this.parentElement.style.display='none';">
+                    ❌
+                </span>
+            </div>
+        {% endfor %}
+        {% endwith %}
+        <!-- Page Content --> 
+        <div class="main"> 
+            {% block content %} 
+            {% endblock %} 
+        </div> 
+    </div> 
+    <!------------ FOOTER -------------> 
+    <footer>
+        <div>
+        <p style="text-align: center;">
+            © {{ 2026 }} All rights reserved.
+        </p>
+        
+        <p style="text-align: center;">
+            SmartCart Developed by <strong style="color: gold;">Vinathi Karumuri</strong>.
+        </p>
+
+        <p style="text-align: center;">
+            Tech-Stack: Python, Flask, MySQL, HTML and CSS.
+        </p>
+        </div>
+    </footer>
+
+    <script> 
+        function toggleMenu() { document.getElementById("navLinks").classList.toggle("show"); } 
+    </script> 
+</body> 
+</html>

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main">
+    <div class="card">
+
+        <h2>Contact Us</h2>
+
+        <!-- FLASH MESSAGE -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">
+                {{ message }}
+            </div>
+          {% endfor %}
+        {% endwith %}
+
+        <!-- CONTACT FORM -->
+        <form method="POST" action="/contact">
+
+            <input type="text" name="name" placeholder="Your Name" required>
+
+            <input type="email" name="email" placeholder="Your Email" required>
+
+            <input type="text" name="subject" placeholder="Subject" required>
+
+            <textarea name="message" placeholder="Your Message" required></textarea>
+
+            <button type="submit">Send Message</button>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

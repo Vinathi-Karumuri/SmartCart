@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card" style="max-width: 900px;">
+
+    <h2>Your Cart</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <p class="flash {{ category }}">{{ message }}</p>
+      {% endfor %}
+    {% endwith %}
+
+    {% if not cart %}
+        <p>Your cart is empty.</p><br>
+        <a href="/user/products" class="add-product-btn">Shop Now</a>
+    {% else %}
+
+        <div class="table-container">
+            <table class="product-table">
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+
+                {% for item in cart %}
+                <tr>
+                    <td>
+                        <img src="/static/uploads/product_images/{{ item.image }}" 
+                             alt="{{ item.name }}">
+                    </td>
+
+                    <td>{{ item.name }}</td>
+                    <td>₹{{ item.price }}</td>
+
+                    <td>
+                        <a href="/user/cart/decrease/{{ item.product_id }}"> − </a>
+                        {{ item.quantity }}
+                        <a href="/user/cart/increase/{{ item.product_id }}"> + </a>
+                    </td>
+
+                    <td>₹{{ item.price * item.quantity }}</td>
+
+                    <td>
+                        <a href="/user/cart/remove/{{ item.product_id }}">Remove</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <h3 style="margin-top:20px;">
+            Grand Total: ₹{{ grand_total }}
+        </h3>
+
+        <a href="/user/select-address"
+           style="
+            display:inline-block;
+            padding:10px 22px;
+            background:green;
+            color:white;
+            text-decoration:none;
+            border-radius:6px;
+            font-weight:bold;
+           ">
+            Proceed to Pay
+        </a><br><br>
+
+        <a href="/user/products" class="add-product-btn">
+            Continue Shopping
+        </a>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="payment-container">
+    <h2 class="payment-title">Complete Your Payment</h2>
+    <p class="payment-amount">Total Amount: ₹{{ amount }}</p>
+
+    <button id="rzp-button" class="pay-btn">Pay Now</button>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+var options = {
+    "key": "{{ key_id }}",
+    "amount": "{{ amount * 100 }}",
+    "currency": "INR",
+    "name": "SmartCart",
+    "description": "Order Payment",
+    "order_id": "{{ order_id }}",
+
+    // ✅ SUCCESS
+    "handler": function (response) {
+        var form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/verify-payment";
+
+        var fields = {
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature
+        };
+
+        for (var key in fields) {
+            var input = document.createElement("input");
+            input.type = "hidden";
+            input.name = key;
+            input.value = fields[key];
+            form.appendChild(input);
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    },
+
+    // ❌ MODAL CLOSE (user presses X)
+    "modal": {
+        "ondismiss": function () {
+            window.location.href = "/payment-failure?reason=Payment cancelled by user";
+        }
+    }
+};
+
+var rzp = new Razorpay(options);
+
+// 🔥 VERY IMPORTANT — PAYMENT FAILURE HANDLER
+rzp.on('payment.failed', function (response) {
+    console.log(response.error);
+
+    // redirect to failure page
+    window.location.href =
+        "/payment-failure?reason=" +
+        encodeURIComponent(response.error.description);
+});
+
+document.getElementById("rzp-button").onclick = function (e) {
+    rzp.open();
+    e.preventDefault();
+};
+</script>
+
+{% endblock %}

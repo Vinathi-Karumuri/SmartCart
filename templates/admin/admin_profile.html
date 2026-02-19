@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main">
+    <div class="card">
+
+        <h2>👤 Admin Profile</h2>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, message in messages %}
+            <p class="flash {{ category }}">{{ message }}</p>
+          {% endfor %}
+        {% endwith %}
+
+        <!-- Current Profile Image -->
+        {% if admin.profile_image %}
+            <img src="/static/uploads/admin_profiles/{{ admin.profile_image }}"
+                 width="120" height="120"
+                 style="border-radius:50%; margin-bottom:20px;">
+        {% else %}
+            <p>No Profile Image</p>
+        {% endif %}
+         
+        <!-- Profile Update Form -->
+        <form method="POST" action="/admin/profile" enctype="multipart/form-data">
+
+            <input type="text"
+                   name="name"
+                   value="{{ admin.name }}"
+                   placeholder="Name"
+                   required>
+
+            <input type="email"
+                   name="email"
+                   value="{{ admin.email }}"
+                   placeholder="Email"
+                   required>
+
+            <input type="password"
+                   name="password"
+                   placeholder="New Password (optional)">
+
+            <input type="file"
+                   name="profile_image"
+                   accept="image/*">
+
+            <button type="submit">Update Profile</button>
+        </form>
+
+        <br>
+        <a href="/admin-dashboard" class="btn-back">← Back to Dashboard</a>
+
+    </div>
+</div>
+
+{% endblock %}
