@@ -233,8 +233,14 @@ def admin_reset_password(token):
     admin = cursor.fetchone()
 
     # 2️⃣ Invalid or expired token
-    if not admin or admin['token_expiry'] < datetime.utcnow():
+    if not admin or not admin['token_expiry']:
         flash("Invalid or expired reset link!", "danger")
+        return redirect('/admin-login')
+
+    token_expiry = datetime.fromisoformat(admin['token_expiry'])
+
+    if token_expiry < datetime.utcnow():
+        flash("Reset link expired!", "danger")
         return redirect('/admin-login')
 
     # 3️⃣ If form submitted → update password
@@ -252,7 +258,7 @@ def admin_reset_password(token):
             SET password=?, reset_token=NULL, token_expiry=NULL
             WHERE admin_id=?
             """,
-            (hashed_password, admin['admin_id'])
+            (hashed_password, admin['admin_id'],token)
         )
 
         conn.commit()
@@ -803,8 +809,14 @@ def user_reset_password(token):
     )
     user = cursor.fetchone()
 
-    if not user or user['token_expiry'] < datetime.utcnow():
+    if not user or not user['token_expiry']:
         flash("Invalid or expired reset link!", "danger")
+        return redirect('/user-login')
+
+    token_expiry = datetime.fromisoformat(user['token_expiry'])
+
+    if token_expiry < datetime.utcnow():
+        flash("Reset link expired!", "danger")
         return redirect('/user-login')
 
     if request.method == 'POST':
@@ -815,12 +827,11 @@ def user_reset_password(token):
             """
             UPDATE users
             SET password=?, reset_token=NULL, token_expiry=NULL
-            WHERE user_id=?
+            WHERE user_id=? AND reset_token=?
             """,
-            (hashed_password, user['user_id'])
+            (hashed_password, user['user_id'],token)
         )
         conn.commit()
-
         cursor.close()
         conn.close()
 
