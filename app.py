@@ -13,7 +13,6 @@ import traceback
 import razorpay
 from flask import make_response
 from utils.pdf_generator import generate_pdf
-from mysql.connector import IntegrityError
 
 # Flask app initialization:
 razorpay_client = razorpay.Client(
@@ -520,7 +519,7 @@ def update_item(item_id):
         conn.commit()
         flash("Product updated successfully!", "success")
 
-    except IntegrityError:
+    except sqlite3.IntegrityError:
         conn.rollback()
         flash("Update failed due to database constraint.", "danger")
 
@@ -572,7 +571,7 @@ def delete_item(item_id):
 
         flash("Product deleted successfully!", "success")
 
-    except IntegrityError:
+    except sqlite3.IntegrityError:
         conn.rollback()
         flash(
             "Cannot delete this product because it is already used in orders.",
