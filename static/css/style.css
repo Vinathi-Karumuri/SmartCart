@@ -140,7 +140,7 @@ footer {
     background: #ffffff;
     color: #333;
     width: 100%;
-    max-width: 520px;
+    max-width: 700px;
     padding: 40px;
     border-radius: 16px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
@@ -341,7 +341,7 @@ footer {
     max-width: 420px;   
 }
 
-/* -------- PRODUCT TABLE SIZE FIX --------- */
+/* -------- PRODUCT TABLE SIZE --------- */
 
 .table-container {
     max-width: 1100px;
@@ -381,7 +381,7 @@ footer {
 
 /* ------ MY ORDERS PAGE -------- */
 .orders-container {
-    width: 70%;
+    width: 100%;
     margin: auto;
     margin-top: 30px;
 }
@@ -423,7 +423,7 @@ footer {
 
 /* ------ ORDER SUCCESS PAGE ------- */
 .order-success-container {
-    width: 70%;
+    width:100%;
     margin: 40px auto;
     background: #ffffff;
     padding: 30px;
@@ -488,7 +488,7 @@ footer {
 
 /* ------- SELECT ADDRESS PAGE --------- */
 .select-address-container {
-    width: 70%;
+    width: 100%;
     margin: 40px auto;
     background: #ffffff;
     padding: 30px;
@@ -549,7 +549,7 @@ footer {
 
 /* -------- PAYMENT PAGE ------- */
 .payment-container {
-    width: 70%;
+    width: 100%;
     margin: 60px auto;
     background: #ffffff;
     padding: 30px;
@@ -594,7 +594,7 @@ footer {
 
 /* -------  PAYMENT FAILURE PAGE -------  */
 .payment-failure-container {
-    width: 60%;
+    width: 100%;
     margin: 60px auto;
     background: #ffffff;
     padding: 30px;
