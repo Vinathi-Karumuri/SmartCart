@@ -18,6 +18,15 @@
                    placeholder="Enter your password"
                    required>
 
+            <!-- CAPTCHA -->
+                <div class="captcha-box">
+                    {{ captcha_question }}
+                </div>
+            <input type="text"
+                name="captcha"
+                placeholder="Enter captcha answer"
+                required>       
+
             <button type="submit">Login</button>
             <p style="margin-top:15px;">
                 <a href="/user-forgot-password">Forgot Password?</a>

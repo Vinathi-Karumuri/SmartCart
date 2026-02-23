@@ -23,10 +23,30 @@
             <strong>Price:</strong> ₹{{ product.price }}
         </p>
 
-        <form action="/user/add-to-cart/{{ product.product_id }}" method="GET">
-        <button type="submit">Add to Cart</button>
-        </form>
+        {% if product.stock > 0 %}
+            <p style="color:green; font-weight:600;">
+                In Stock: {{ product.stock }}
+            </p>
+        {% else %}
+            <p style="color:red; font-weight:600;">
+                Out of Stock
+            </p>
+        {% endif %}
 
+        {% if product.stock > 0 %}
+            <a href="/user/add-to-cart/{{ product.product_id }}"
+            class="add-product-btn"
+            style="margin-top:20px;">
+                Add To Cart
+            </a>
+        {% else %}
+            <button class="add-product-btn"
+                    style="margin-top:20px; background:#ccc; cursor:not-allowed;"
+                    disabled>
+                Out of Stock
+            </button>
+        {% endif %}
+        <br> 
         <a href="/user/products"
            class="add-product-btn"
            style="margin-top:20px;">

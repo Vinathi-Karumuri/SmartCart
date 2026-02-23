@@ -5,7 +5,8 @@ CREATE TABLE admin (
     password TEXT,
     profile_image TEXT,
     reset_token TEXT,
-    token_expiry DATETIME
+    token_expiry DATETIME,
+    role TEXT DEFAULT 'admin'
 );
 
 CREATE TABLE users (
@@ -25,6 +26,7 @@ CREATE TABLE products (
     category TEXT,
     price REAL,
     image TEXT,
+    stock INTEGER DEFAULT 0,
     admin_id INTEGER,
     FOREIGN KEY (admin_id) REFERENCES admin(admin_id)
 );

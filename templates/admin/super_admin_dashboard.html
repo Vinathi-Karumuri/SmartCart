@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main" style="flex-direction:column; align-items:flex-start; width:100%;">
+
+    <h3>👑 Super Admin Dashboard</h3>
+
+    <p style="margin:10px 0; font-weight:600;">
+        Total Registered Admins: {{ admin_count }}
+    </p>
+
+    <div class="table-container" style="width:100%; max-width:900px;">
+        <table class="product-table">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+
+            {% for admin in admins %}
+            <tr>
+                <td>{{ admin.admin_id }}</td>
+                <td>{{ admin.name }}</td>
+                <td>{{ admin.email }}</td>
+                <td>
+                    {% if admin.role == 'superadmin' %}
+                        <span style="color:green; font-weight:600;">Super Admin</span>
+                    {% else %}
+                        Admin
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

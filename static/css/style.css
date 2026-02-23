@@ -661,3 +661,121 @@ footer {
         height: auto;
     }
 }
+
+/* ---------- CAPTCHA STYLING ---------- */
+.captcha-box {
+    margin: 12px 0;
+    padding: 12px 0;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    font-family: 'Courier New', monospace;
+    color: #1a1a1a;
+
+    background: linear-gradient(135deg, #f0f4ff, #e6ecff);
+    border: 2px dashed #4a6cff;
+    border-radius: 8px;
+
+    user-select: none;   /* text select disable */
+}
+
+/* Input focus highlight (optional nice touch) */
+input[name="captcha"]:focus {
+    border: 2px solid #4a6cff;
+    box-shadow: 0 0 5px rgba(74, 108, 255, 0.5);
+}
+
+/* =====================================================
+   THEME TOGGLE BUTTON (NAVBAR)
+===================================================== */
+.theme-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 12px;
+    color: white; /* navbar color */
+}
+
+/* =====================================================
+   DARK THEME – CONTENT ONLY
+   (Navbar & Footer WILL NOT CHANGE)
+===================================================== */
+
+/* Background behind content */
+body.dark .page-bg {
+    background-color: #121212;
+}
+
+/* Main content text */
+body.dark .main {
+    color: #f1f1f1;
+}
+
+/* Cards */
+body.dark .card {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+}
+
+/* Tables */
+body.dark table {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    border-collapse: collapse;
+}
+
+body.dark th {
+    background-color: #2a2a2a;
+    color: #ffffff;
+}
+
+body.dark td {
+    background-color: #1f1f1f;
+    color: #ffffff;
+}
+
+/* Inputs */
+body.dark input,
+body.dark textarea,
+body.dark select {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    border: 1px solid #444;
+}
+
+/* Placeholder text */
+body.dark input::placeholder,
+body.dark textarea::placeholder {
+    color: #aaaaaa;
+}
+
+/* Filter bar / search boxes */
+body.dark .filter-bar {
+    background-color: transparent;
+}
+
+/* Flash messages (optional polish) */
+body.dark .flash.success {
+    background-color: #1e7e34;
+    color: #ffffff;
+}
+
+body.dark .flash.danger {
+    background-color: #842029;
+    color: #ffffff;
+}
+
+/* =====================================================
+   SMOOTH TRANSITION (OPTIONAL BUT NICE)
+===================================================== */
+.page-bg,
+.card,
+table,
+input,
+textarea,
+select {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}

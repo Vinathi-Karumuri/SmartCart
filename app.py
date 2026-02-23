@@ -3,6 +3,7 @@ from flask_mail import Mail, Message
 import sqlite3
 import bcrypt  
 import random
+import string
 import config
 import os
 from werkzeug.utils import secure_filename
@@ -151,10 +152,27 @@ def verify_otp():
 def admin_login():
 
     if request.method == 'GET':
-        return render_template("admin/admin_login.html", navbar_type="public")
+      captcha_text = ''.join(random.choices(
+            string.ascii_letters + string.digits, k=5
+        ))
 
+      session['captcha_answer'] = captcha_text
+
+      return render_template(
+            "admin/admin_login.html",
+            navbar_type="public",
+            captcha_question=f"{captcha_text}"
+        )
+
+    # POST
     email = request.form['email']
     password = request.form['password']
+    captcha = request.form.get('captcha')
+
+    # 🔐 CAPTCHA CHECK
+    if captcha != session.get('captcha_answer'):
+        flash("Invalid captcha!", "danger")
+        return redirect('/admin-login')
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -173,9 +191,52 @@ def admin_login():
 
     session['admin_id'] = admin['admin_id']
     session['admin_name'] = admin['name']
+    session['role'] = admin['role']
+
+    session.pop('captcha_answer', None)
 
     flash("Login Successful!", "success")
     return redirect('/admin-dashboard')
+
+# ---------------- SUPER ADMIN DASHBOARD ----------------
+@app.route('/super-admin/dashboard')
+def super_admin_dashboard():
+
+    if 'admin_id' not in session:
+        flash("Please login first!", "danger")
+        return redirect('/admin-login')
+
+    # 🔐 Only super admin allowed
+    if session.get('role') != 'superadmin':
+        flash("Unauthorized access!", "danger")
+        return redirect('/admin-dashboard')
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Fetch all admins (except superadmin optionally)
+    cursor.execute("""
+        SELECT admin_id, name, email, role
+        FROM admin
+        ORDER BY admin_id DESC
+    """)
+    admins = cursor.fetchall()
+
+    # Count admins
+    cursor.execute("""
+        SELECT COUNT(*) FROM admin WHERE role='admin'
+    """)
+    admin_count = cursor.fetchone()[0]
+
+    cursor.close()
+    conn.close()
+
+    return render_template(
+        "admin/super_admin_dashboard.html",
+        admins=admins,
+        admin_count=admin_count,
+        navbar_type="admin"
+    )
 
 # ---------------Admin Forget password---------------
 @app.route('/admin-forgot-password', methods=['GET', 'POST'])
@@ -345,6 +406,7 @@ def add_item():
     description = request.form['description']
     category = request.form['category']
     price = request.form['price']
+    stock = request.form['stock']
     image_file = request.files['image']
 
     filename = secure_filename(image_file.filename)
@@ -356,8 +418,8 @@ def add_item():
     cursor = conn.cursor()
 
     cursor.execute(
-        "INSERT INTO products (name, description, category, price, image, admin_id) VALUES (?,?,?,?,?,?)",
-        (name, description, category, price, filename, admin_id)
+        "INSERT INTO products (name, description, category, price, stock, image, admin_id) VALUES (?,?,?,?,?,?,?)",
+        (name, description, category, price, stock, filename, admin_id)
     )
 
     conn.commit()
@@ -714,22 +776,39 @@ def user_register():
     flash("Registration successful! Please login.", "success")
     return redirect('/user-login')
 
-# --------------USER LOGIN----------------
+import random
+
+# -------------- USER LOGIN ----------------
 @app.route('/user-login', methods=['GET', 'POST'])
 def user_login():
 
     if request.method == 'GET':
-        return render_template("user/user_login.html", navbar_type="public")
+        captcha_text = ''.join(random.choices(
+            string.ascii_letters + string.digits, k=5
+        ))
 
+        session['captcha_answer'] = captcha_text
+
+        return render_template(
+            "user/user_login.html",
+            navbar_type="public",
+            captcha_question=captcha_text
+        )
+
+    # POST
     email = request.form['email']
     password = request.form['password']
+    captcha = request.form.get('captcha')
+
+    # 🔐 CAPTCHA CHECK
+    if captcha != session.get('captcha_answer'):
+        flash("Invalid captcha!", "danger")
+        return redirect('/user-login')
 
     conn = get_db_connection()
     cursor = conn.cursor()
-
     cursor.execute("SELECT * FROM users WHERE email=?", (email,))
     user = cursor.fetchone()
-
     cursor.close()
     conn.close()
 
@@ -737,15 +816,16 @@ def user_login():
         flash("Email not found! Please register.", "danger")
         return redirect('/user-login')
 
-    # Verify password
     if not bcrypt.checkpw(password.encode('utf-8'), user['password']):
         flash("Incorrect password!", "danger")
         return redirect('/user-login')
 
-    # Create user session
     session['user_id'] = user['user_id']
     session['user_name'] = user['name']
     session['user_email'] = user['email']
+
+    session.pop('captcha_answer', None)
+
     flash("Login successful!", "success")
     return redirect('/user-dashboard')
 
@@ -970,27 +1050,42 @@ def add_to_cart(product_id):
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Check product exists
-    cursor.execute("SELECT * FROM products WHERE product_id=?", (product_id,))
+    cursor.execute("SELECT * FROM products WHERE product_id = ?", (product_id,))
     product = cursor.fetchone()
 
     if not product:
         flash("Product not found.", "danger")
+        cursor.close()
+        conn.close()
         return redirect(request.referrer)
 
-    # Check if product already in cart
+    if product['stock'] <= 0:
+        flash("Product is out of stock!", "danger")
+        cursor.close()
+        conn.close()
+        return redirect(request.referrer)
+
     cursor.execute("""
         SELECT * FROM cart 
-        WHERE user_id=? AND product_id=?
+        WHERE user_id = ? AND product_id = ?
     """, (user_id, product_id))
     existing = cursor.fetchone()
 
     if existing:
+        current_qty = existing['quantity']
+
+        if current_qty >= product['stock']:
+            flash("Cannot add more. Stock limit reached!", "warning")
+            cursor.close()
+            conn.close()
+            return redirect(request.referrer)
+
         cursor.execute("""
             UPDATE cart 
             SET quantity = quantity + 1 
-            WHERE user_id=? AND product_id=?
+            WHERE user_id = ? AND product_id = ?
         """, (user_id, product_id))
+
     else:
         cursor.execute("""
             INSERT INTO cart (user_id, product_id, quantity)
@@ -1500,12 +1595,23 @@ def order_success(order_db_id):
 
     # Fetch order items
     cursor.execute("""
-        SELECT product_name, quantity, price
+        SELECT product_id, product_name, quantity, price
         FROM order_items
         WHERE order_id = ?
     """, (order_db_id,))
 
     items = cursor.fetchall()
+
+    for item in items:
+        product_id = item['product_id']
+        quantity = item['quantity']
+
+        cursor.execute(
+            "UPDATE products SET stock = stock - ? WHERE product_id = ? AND stock >= ?",
+            (quantity, product_id, quantity)
+        )
+
+    conn.commit()
 
     cursor.close()
     conn.close()
