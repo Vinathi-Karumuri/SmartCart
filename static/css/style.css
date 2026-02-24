@@ -12,7 +12,7 @@ html, body {
 
 /* ---------- BODY ---------- */
 body {
-    overflow-x: hidden;
+    overflow: auto;
     background: #f4f6f9;
 }
 
@@ -80,6 +80,11 @@ footer {
     display: flex; 
     justify-content: center; 
     align-items: flex-start; 
+
+    background-image: url("/static/images/sc-bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 /* ---------- MAIN CONTENT ---------- */
@@ -128,7 +133,7 @@ footer {
     flex: 1;
 }
 
-/* ❌ close button */
+/* close button */
 .close-btn {
     margin-left: 15px;
     cursor: pointer;
@@ -204,7 +209,6 @@ footer {
 /* ---------- PRODUCT TABLE ---------- */
 .table-container {
     width: 100%;
-    overflow-x: auto;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.25);
@@ -300,7 +304,7 @@ footer {
     color: #fff;
 }
 
-/* ---------- MOBILE NAVBAR (FINAL FIX) ---------- */
+/* ---------- MOBILE NAVBAR ---------- */
 @media (max-width: 768px) {
 
     .menu-toggle {
@@ -342,7 +346,6 @@ footer {
 }
 
 /* -------- PRODUCT TABLE SIZE --------- */
-
 .table-container {
     max-width: 1100px;
     margin: 0 auto;
@@ -642,6 +645,17 @@ footer {
     transition: 0.3s;
 }
 
+.btn1-back {
+    display: inline-block;
+    padding: 10px 18px;
+    background-color: #0ae577;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
 .btn-back:hover {
     background-color: #0056b3;
 }
@@ -677,10 +691,10 @@ footer {
     border: 2px dashed #4a6cff;
     border-radius: 8px;
 
-    user-select: none;   /* text select disable */
-}
+    user-select: none;  
+} 
 
-/* Input focus highlight (optional nice touch) */
+/* Input focus highlight */
 input[name="captcha"]:focus {
     border: 2px solid #4a6cff;
     box-shadow: 0 0 5px rgba(74, 108, 255, 0.5);
@@ -695,13 +709,8 @@ input[name="captcha"]:focus {
     font-size: 20px;
     cursor: pointer;
     margin-left: 12px;
-    color: white; /* navbar color */
+    color: white;
 }
-
-/* =====================================================
-   DARK THEME – CONTENT ONLY
-   (Navbar & Footer WILL NOT CHANGE)
-===================================================== */
 
 /* Background behind content */
 body.dark .page-bg {
@@ -757,7 +766,7 @@ body.dark .filter-bar {
     background-color: transparent;
 }
 
-/* Flash messages (optional polish) */
+/* Flash messages */
 body.dark .flash.success {
     background-color: #1e7e34;
     color: #ffffff;
@@ -769,7 +778,7 @@ body.dark .flash.danger {
 }
 
 /* =====================================================
-   SMOOTH TRANSITION (OPTIONAL BUT NICE)
+   SMOOTH TRANSITION
 ===================================================== */
 .page-bg,
 .card,
@@ -780,50 +789,84 @@ select {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ===== DARK THEME HEADINGS FIX ===== */
+/* ===== DARK THEME HEADINGS ===== */
 body.dark h1,
 body.dark h2,
 body.dark h3,
 body.dark h4 {
-    color: #ffffff !important;
-}
-
-/* ===== DARK THEME CARD CONTENT FIX ===== */
-body.dark .card p,
-body.dark .card span,
-body.dark .card small,
-body.dark .order-card p,
-body.dark .order-info,
-body.dark .payment-amount,
-body.dark .payment-failure-reason {
-    color: #eaeaea;
-}
-
-/* ===== DARK THEME ORDER CARDS ===== */
-body.dark .order-card {
-    background: #1f1f1f;
-    border: 1px solid #333;
     color: #ffffff;
 }
 
-/* ===== DARK THEME PAGE CONTAINERS ===== */
-body.dark .payment-container,
+/* Common white containers */
+body.dark .order-card,
 body.dark .select-address-container,
+body.dark .payment-container,
 body.dark .order-success-container,
 body.dark .payment-failure-container {
-    background: #1f1f1f;
+    background-color: #1f1f1f;
     color: #ffffff;
 }
 
-/* ===== DARK THEME BUTTON POLISH ===== */
-body.dark .order-btn,
-body.dark .payment-failure-btn,
-body.dark .address-btn,
-body.dark .pay-btn {
+/* Headings inside those pages */
+body.dark .select-address-container h2,
+body.dark .payment-container h2,
+body.dark .order-success-container h2,
+body.dark .payment-failure-container h2,
+body.dark .order-success-container h3 {
     color: #ffffff;
 }
 
-/* ===== DARK THEME TABLE ROW HOVER ===== */
-body.dark table tr:hover td {
-    background-color: #2c2c2c;
+/* Paragraphs & labels */
+body.dark .select-address-container p,
+body.dark .payment-container p,
+body.dark .order-success-container p,
+body.dark .payment-failure-container p,
+body.dark .order-info {
+    color: #dddddd;
+}
+
+/* Address card */
+body.dark .address-card {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    border: 1px solid #444;
+}
+
+/* Tables inside order success */
+body.dark .order-table th {
+    background-color: #2a2a2a;
+    color: #ffffff;
+}
+
+body.dark .order-table td {
+    background-color: #1f1f1f;
+    color: #ffffff;
+}
+
+.products-header {
+    position: sticky;
+    top: 90px;         
+    z-index: 10;
+
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;   
+    align-items: flex-start;  
+    gap: 15px;
+    align-items: center;
+
+    padding: 10px 0;
+}
+
+.table-container {
+    max-height: 65vh;
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .products-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
 }
