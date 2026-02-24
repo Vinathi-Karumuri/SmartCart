@@ -779,3 +779,51 @@ textarea,
 select {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* ===== DARK THEME HEADINGS FIX ===== */
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4 {
+    color: #ffffff !important;
+}
+
+/* ===== DARK THEME CARD CONTENT FIX ===== */
+body.dark .card p,
+body.dark .card span,
+body.dark .card small,
+body.dark .order-card p,
+body.dark .order-info,
+body.dark .payment-amount,
+body.dark .payment-failure-reason {
+    color: #eaeaea;
+}
+
+/* ===== DARK THEME ORDER CARDS ===== */
+body.dark .order-card {
+    background: #1f1f1f;
+    border: 1px solid #333;
+    color: #ffffff;
+}
+
+/* ===== DARK THEME PAGE CONTAINERS ===== */
+body.dark .payment-container,
+body.dark .select-address-container,
+body.dark .order-success-container,
+body.dark .payment-failure-container {
+    background: #1f1f1f;
+    color: #ffffff;
+}
+
+/* ===== DARK THEME BUTTON POLISH ===== */
+body.dark .order-btn,
+body.dark .payment-failure-btn,
+body.dark .address-btn,
+body.dark .pay-btn {
+    color: #ffffff;
+}
+
+/* ===== DARK THEME TABLE ROW HOVER ===== */
+body.dark table tr:hover td {
+    background-color: #2c2c2c;
+}
