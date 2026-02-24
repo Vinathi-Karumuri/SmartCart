@@ -111,7 +111,10 @@ def admin_signup():
         recipients=[email]
     )
     message.body = f"Your OTP for SmartCart Admin Registration is: {otp}"
-    mail.send(message)
+    try:
+       mail.send(message)
+    except Exception as e:
+        print("Email not sent (server restriction):", e)
 
     flash("OTP sent to your email!", "success")
     return redirect('/verify-otp')
@@ -272,7 +275,10 @@ def admin_forgot_password():
             recipients=[email]
         )
         msg.body = f"Click the link to reset password:\n{reset_link}"
-        mail.send(msg)
+        try:
+            mail.send(msg)
+        except Exception as e:
+            print("Reset email not sent (server restriction):", e)
 
         flash("Reset link sent to your email!", "success")
         return redirect('/admin-login')
@@ -863,7 +869,10 @@ def user_forgot_password():
             recipients=[email]
         )
         msg.body = f"Click here to reset your password:\n{reset_link}"
-        mail.send(msg)
+        try:
+            mail.send(msg)
+        except Exception as e:
+            print("Reset email not sent (server restriction):", e)
 
         cursor.close()
         conn.close()
