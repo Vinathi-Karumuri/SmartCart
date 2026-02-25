@@ -552,6 +552,7 @@ def update_item(item_id):
     description = request.form['description']
     category = request.form['category']
     price = request.form['price']
+    stock = request.form['stock']
     new_image = request.files.get('image')
 
     conn = get_db_connection()
@@ -586,9 +587,9 @@ def update_item(item_id):
         # Update DB
         cursor.execute("""
             UPDATE products
-            SET name=?, description=?, category=?, price=?, image=?
+            SET name=?, description=?, category=?, price=?, stock=?, image=?
             WHERE product_id=? AND admin_id=?
-        """, (name, description, category, price, filename, item_id, admin_id))
+        """, (name, description, category, price, stock, filename, item_id, admin_id))
 
         conn.commit()
         flash("Product updated successfully!", "success")
