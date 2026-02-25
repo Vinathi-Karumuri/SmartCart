@@ -361,6 +361,7 @@ footer {
 .product-table th {
     background: #eef2f7;  
     color: #333;
+    font-size: 20px;
 }
 
 .product-table td {
