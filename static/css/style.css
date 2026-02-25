@@ -714,66 +714,66 @@ input[name="captcha"]:focus {
 }
 
 /* Background behind content */
-body.dark .page-bg {
+body.dark-mode .page-bg {
     background-color: #121212;
 }
 
 /* Main content text */
-body.dark .main {
+body.dark-mode .main {
     color: #f1f1f1;
 }
 
 /* Cards */
-body.dark .card {
+body.dark-mode .card {
     background-color: #1f1f1f;
     color: #ffffff;
     box-shadow: 0 8px 20px rgba(0,0,0,0.6);
 }
 
 /* Tables */
-body.dark table {
+body.dark-mode table {
     background-color: #1f1f1f;
     color: #ffffff;
     border-collapse: collapse;
 }
 
-body.dark th {
+body.dark-mode th {
     background-color: #2a2a2a;
     color: #ffffff;
 }
 
-body.dark td {
+body.dark-mode td {
     background-color: #1f1f1f;
     color: #ffffff;
 }
 
 /* Inputs */
-body.dark input,
-body.dark textarea,
-body.dark select {
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
     background-color: #2a2a2a;
     color: #ffffff;
     border: 1px solid #444;
 }
 
 /* Placeholder text */
-body.dark input::placeholder,
-body.dark textarea::placeholder {
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
     color: #aaaaaa;
 }
 
 /* Filter bar / search boxes */
-body.dark .filter-bar {
+body.dark-mode .filter-bar {
     background-color: transparent;
 }
 
 /* Flash messages */
-body.dark .flash.success {
+body.dark-mode .flash.success {
     background-color: #1e7e34;
     color: #ffffff;
 }
 
-body.dark .flash.danger {
+body.dark-mode .flash.danger {
     background-color: #842029;
     color: #ffffff;
 }
@@ -791,55 +791,55 @@ select {
 }
 
 /* ===== DARK THEME HEADINGS ===== */
-body.dark h1,
-body.dark h2,
-body.dark h3,
-body.dark h4 {
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4 {
     color: #ffffff;
 }
 
 /* Common white containers */
-body.dark .order-card,
-body.dark .select-address-container,
-body.dark .payment-container,
-body.dark .order-success-container,
-body.dark .payment-failure-container {
+body.dark-mode .order-card,
+body.dark-mode .select-address-container,
+body.dark-mode .payment-container,
+body.dark-mode .order-success-container,
+body.dark-mode .payment-failure-container {
     background-color: #1f1f1f;
     color: #ffffff;
 }
 
 /* Headings inside those pages */
-body.dark .select-address-container h2,
-body.dark .payment-container h2,
-body.dark .order-success-container h2,
-body.dark .payment-failure-container h2,
-body.dark .order-success-container h3 {
+body.dark-mode .select-address-container h2,
+body.dark-mode .payment-container h2,
+body.dark-mode .order-success-container h2,
+body.dark-mode .payment-failure-container h2,
+body.dark-mode .order-success-container h3 {
     color: #ffffff;
 }
 
 /* Paragraphs & labels */
-body.dark .select-address-container p,
-body.dark .payment-container p,
-body.dark .order-success-container p,
-body.dark .payment-failure-container p,
-body.dark .order-info {
+body.dark-mode .select-address-container p,
+body.dark-mode .payment-container p,
+body.dark-mode .order-success-container p,
+body.dark-mode .payment-failure-container p,
+body.dark-mode .order-info {
     color: #dddddd;
 }
 
 /* Address card */
-body.dark .address-card {
+body.dark-mode .address-card {
     background-color: #2a2a2a;
     color: #ffffff;
     border: 1px solid #444;
 }
 
 /* Tables inside order success */
-body.dark .order-table th {
+body.dark-mode .order-table th {
     background-color: #2a2a2a;
     color: #ffffff;
 }
 
-body.dark .order-table td {
+body.dark-mode .order-table td {
     background-color: #1f1f1f;
     color: #ffffff;
 }
@@ -870,4 +870,26 @@ body.dark .order-table td {
         align-items: flex-start;
         gap: 10px;
     }
+}
+
+/* ===== SOFT DARK MODE (BACKGROUND IMAGE VISIBLE) ===== */
+
+body.dark-mode .page-bg::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.25),
+        rgba(0, 0, 0, 0.35)
+    ); /* SOFT dark overlay */
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Ensure content stays above overlay */
+.page-bg,
+.page-bg .main,
+.page-bg .card {
+    position: relative;
+    z-index: 1;
 }
