@@ -62,7 +62,7 @@ def contact():
         subject = request.form['subject']
         message = request.form['message']
 
-        flash("✅Message sent successfully!", "success")
+        flash("✅ Message sent successfully!", "success")
 
         return redirect('/contact')
 
@@ -116,7 +116,7 @@ def admin_signup():
     except Exception as e:
         print("Email not sent (server restriction):", e)
 
-    flash("✅OTP sent to your email!", "success")
+    flash("✅ OTP sent to your email!", "success")
     return redirect('/verify-otp')
 
 # ---------------- VERIFY OTP ----------------
@@ -130,7 +130,7 @@ def verify_otp():
     password = request.form['password']
 
     if str(session.get('otp')) != str(user_otp):
-        flash("❌Invalid OTP. Try again!", "danger")
+        flash("❌ Invalid OTP. Try again!", "danger")
         return redirect('/verify-otp')
 
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
@@ -147,7 +147,7 @@ def verify_otp():
 
     session.clear()
 
-    flash("✅Admin Registered Successfully!", "success")
+    flash("✅ Admin Registered Successfully!", "success")
     return redirect('/admin-login')
 
 # ---------------- ADMIN LOGIN ----------------
@@ -174,7 +174,7 @@ def admin_login():
 
     # 🔐 CAPTCHA CHECK
     if captcha != session.get('captcha_answer'):
-        flash("❌Invalid captcha!", "danger")
+        flash("❌ Invalid captcha!", "danger")
         return redirect('/admin-login')
 
     conn = get_db_connection()
@@ -189,7 +189,7 @@ def admin_login():
         return redirect('/admin-login')
 
     if not bcrypt.checkpw(password.encode('utf-8'), admin['password']):
-        flash("❌Incorrect password!", "danger")
+        flash("❌ Incorrect password!", "danger")
         return redirect('/admin-login')
 
     session['admin_id'] = admin['admin_id']
@@ -198,7 +198,7 @@ def admin_login():
 
     session.pop('captcha_answer', None)
 
-    flash("✅Login Successful!", "success")
+    flash("✅ Login Successful!", "success")
     return redirect('/admin-dashboard')
 
 # ---------------- ADMIN DASHBOARD ----------------
@@ -251,7 +251,6 @@ def admin_dashboard():
         cursor.execute(query, params)
         products = cursor.fetchall()
 
-    # 🔥 IF SUPERADMIN → Fetch admins list
     admins = []
     admin_count = 0
 
@@ -319,7 +318,7 @@ def admin_forgot_password():
         except Exception as e:
             print("Reset email not sent (server restriction):", e)
 
-        flash("✅Reset link sent to your email!", "success")
+        flash("✅ Reset link sent to your email!", "success")
         return redirect('/admin-login')
 
     return render_template('admin/forgot_password.html', navbar_type="public")
@@ -340,7 +339,7 @@ def admin_reset_password(token):
 
     # 2️⃣ Invalid or expired token
     if not admin or not admin['token_expiry']:
-        flash("❌Invalid or expired reset link!", "danger")
+        flash("❌ Invalid or expired reset link!", "danger")
         return redirect('/admin-login')
 
     token_expiry = datetime.fromisoformat(admin['token_expiry'])
@@ -371,7 +370,7 @@ def admin_reset_password(token):
         cursor.close()
         conn.close()
 
-        flash("✅Password updated successfully. Please login!", "success")
+        flash("✅ Password updated successfully. Please login!", "success")
         return redirect('/admin-login')
 
     return render_template(
@@ -383,7 +382,7 @@ def admin_reset_password(token):
 @app.route('/admin-logout')
 def admin_logout():
     session.clear()
-    flash("✅Logged out successfully.", "success")
+    flash("✅ Logged out successfully.", "success")
     return redirect('/admin-login')
 
 UPLOAD_FOLDER = 'static/uploads/product_images'
@@ -424,7 +423,7 @@ def add_item():
     cursor.close()
     conn.close()
 
-    flash("✅Product added successfully!", "success")
+    flash("✅ Product added successfully!", "success")
     return redirect('/admin/add-item')
 
 # ---------------DISPLAY ALL PRODUCTS (Admin)--------------
@@ -652,11 +651,11 @@ def update_item(item_id):
             """, (name, description, category, price, stock, filename, item_id, admin_id))
 
         conn.commit()
-        flash("✅Product updated successfully!", "success")
+        flash("✅ Product updated successfully!", "success")
 
     except sqlite3.IntegrityError:
         conn.rollback()
-        flash("❌Update failed due to database constraint.", "danger")
+        flash("❌ Update failed due to database constraint.", "danger")
 
     finally:
         cursor.close()
@@ -719,7 +718,7 @@ def delete_item(item_id):
             if os.path.exists(img_path):
                 os.remove(img_path)
 
-        flash("✅Product deleted successfully!", "success")
+        flash("✅ Product deleted successfully!", "success")
 
     except sqlite3.IntegrityError:
         conn.rollback()
@@ -814,7 +813,7 @@ def admin_profile_update():
     session['admin_name'] = name  
     session['admin_email'] = email
 
-    flash("✅Profile updated successfully!", "success")
+    flash("✅ Profile updated successfully!", "success")
     return redirect('/admin/profile')
 
 # ------------ USER REGISTRATION----------
@@ -852,7 +851,7 @@ def user_register():
     cursor.close()
     conn.close()
 
-    flash("✅Registration successful! Please login.", "success")
+    flash("✅ Registration successful! Please login.", "success")
     return redirect('/user-login')
 
 import random
@@ -881,7 +880,7 @@ def user_login():
 
     # 🔐 CAPTCHA CHECK
     if captcha != session.get('captcha_answer'):
-        flash("❌Invalid captcha!", "danger")
+        flash("❌ Invalid captcha!", "danger")
         return redirect('/user-login')
 
     conn = get_db_connection()
@@ -896,7 +895,7 @@ def user_login():
         return redirect('/user-login')
 
     if not bcrypt.checkpw(password.encode('utf-8'), user['password']):
-        flash("❌Incorrect password!", "danger")
+        flash("❌ Incorrect password!", "danger")
         return redirect('/user-login')
 
     session['user_id'] = user['user_id']
@@ -905,7 +904,7 @@ def user_login():
 
     session.pop('captcha_answer', None)
 
-    flash("✅Login successful!", "success")
+    flash("✅ Login successful!", "success")
     return redirect('/user-dashboard')
 
 # ------------ USER FORGOT PASSWORD ------------
@@ -950,7 +949,7 @@ def user_forgot_password():
         cursor.close()
         conn.close()
 
-        flash("✅Password reset link sent to your email!", "success")
+        flash("✅ Password reset link sent to your email!", "success")
         return redirect('/user-login')
 
     return render_template(
@@ -972,7 +971,7 @@ def user_reset_password(token):
     user = cursor.fetchone()
 
     if not user or not user['token_expiry']:
-        flash("❌Invalid or expired reset link!", "danger")
+        flash("❌ Invalid or expired reset link!", "danger")
         return redirect('/user-login')
 
     token_expiry = datetime.fromisoformat(user['token_expiry'])
@@ -997,7 +996,7 @@ def user_reset_password(token):
         cursor.close()
         conn.close()
 
-        flash("✅Password updated successfully!", "success")
+        flash("✅ Password updated successfully!", "success")
         return redirect('/user-login')
 
     return render_template(
@@ -1057,7 +1056,7 @@ def user_logout():
     session.pop('user_name', None)
     session.pop('user_email', None)
 
-    flash("✅Logged out successfully!", "success")
+    flash("✅ Logged out successfully!", "success")
     return redirect('/user-login')
 
 # ------------USER PRODUCT LISTING (SEARCH + FILTER)------------
@@ -1178,7 +1177,7 @@ def add_to_cart(product_id):
     cursor.close()
     conn.close()
 
-    flash("✅Item added to cart!", "success")
+    flash("✅ Item added to cart!", "success")
     return redirect(request.referrer)
 
 # --------------VIEW CART PAGE-----------------
@@ -1288,7 +1287,7 @@ def remove_from_cart(product_id):
     cursor.close()
     conn.close()
 
-    flash("❌Item removed!", "success")
+    flash("❌ Item removed!", "success")
     return redirect('/user/cart')
 
 # ----------------- SHOW USER PROFILE DATA------------------
@@ -1377,7 +1376,7 @@ def user_profile_update():
     session['user_name'] = name
     session['user_email'] = email
 
-    flash("✅Profile updated successfully!", "success")
+    flash("✅ Profile updated successfully!", "success")
     return redirect('/user/profile')
 
 # ------------ Route: ADD ADDRESS (GET + POST) -------------
@@ -1414,7 +1413,7 @@ def add_address():
     cursor.close()
     conn.close()
 
-    flash("✅Address added successfully!", "success")
+    flash("✅ Address added successfully!", "success")
     return redirect('/user/select-address')
 
 # ---------- CREATE RAZORPAY ORDER------------
@@ -1528,7 +1527,7 @@ def verify_payment():
     razorpay_signature = request.form.get('razorpay_signature')
 
     if not (razorpay_payment_id and razorpay_order_id and razorpay_signature):
-        flash("❌Payment verification failed (missing data).", "danger")
+        flash("❌ Payment verification failed (missing data).", "danger")
         return redirect('/user/cart')
 
     payload = {
@@ -1541,7 +1540,7 @@ def verify_payment():
         razorpay_client.utility.verify_payment_signature(payload)
     except Exception as e:
         app.logger.error("Razorpay signature verification failed: ?", str(e))
-        flash("❌Payment verification failed.", "danger")
+        flash("❌ Payment verification failed.", "danger")
         return redirect('/user/cart')
 
     # ---------- AFTER PAYMENT VERIFIED ----------
@@ -1616,7 +1615,7 @@ def verify_payment():
         session.pop('razorpay_order_id', None)
         session.pop('selected_address_id', None)
 
-        flash("✅Payment successful! Order placed.", "success")
+        flash("✅ Payment successful! Order placed.", "success")
         return redirect(f"/user/order-success/{order_db_id}")
 
     except Exception as e:
@@ -1766,7 +1765,7 @@ def download_invoice(order_id):
 
     pdf = generate_pdf(html)
     if not pdf:
-        flash("❌Error generating PDF", "danger")
+        flash("❌ Error generating PDF", "danger")
         return redirect('/user/my-orders')
 
     response = make_response(pdf.getvalue())
