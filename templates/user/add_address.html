@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="card" style="width: 400px;">
+<div class="card" style="width: 320px;">
 
     <h2>Add Address</h2>
 
@@ -11,7 +11,6 @@
         <p class="flash {{ category }}">{{ message }}</p>
       {% endfor %}
     {% endwith %}
-
     <form method="POST" action="/user/add-address">
 
         <input type="text" name="name" placeholder="Full Name" required>
